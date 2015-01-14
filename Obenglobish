@@ -1,0 +1,86 @@
+/*
+ * File: Obenglobish.java
+ * ----------------------
+ * Name: [TODO: enter name here]
+ * Section: [TODO: enter section leader here]
+ * This file is the starter project for the Obenglobish problem.
+ * [TODO: rewrite the documentation]
+ */
+
+#include <iostream>
+#include <string>
+#include "console.h"
+#include "simpio.h"
+#include "strlib.h"
+using namespace std;
+
+string obenglobish(string word);
+bool isVowel(char ch);
+bool finalE(string word, int index);
+bool followsVowel(string word, int index);
+
+/* Main program */
+
+int main() {
+    while (true) {
+        string word = getLine("Enter a word: ");
+        if (word == "") break;
+        string trans = obenglobish(word);
+        cout << word << "-> " << trans << endl;
+    }
+    return 0;
+}
+
+/*
+ * Takes in a word string and returns the obenglobish word.
+ */
+
+string obenglobish(string word) {
+    string translatedWord;
+    for(int i = 0; i < word.length(); i++) {
+        char ch = tolower(word.at(i));
+        if(isVowel(ch)) {
+            if(!followsVowel(word, i)) {
+                if(!finalE(word, i))
+                    translatedWord += "ob";
+            }
+        }
+        translatedWord += ch;
+    }
+    return translatedWord;
+}
+
+/*
+ * Returns true if the character passed in is a vowel.
+ * Returns false otherwise.
+ */
+bool isVowel(char ch) {
+    switch(ch) {
+    case 'a': case 'e': case 'i': case 'o': case 'u': return true;
+    default: return false;
+    }
+}
+
+/*
+ * Returns true if the character at index is the last 'e' of the word.
+ * Returns false otherwise.
+ */
+bool finalE(string word, int index) {
+    if(index == word.length() - 1) {
+        if(word.at(index) == 'e') {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Returns true if the character at index follows a vowel.
+ */
+bool followsVowel(string word, int index) {
+    if(index > 0) {
+        if(isVowel(word.at(index - 1))) return true;
+    }
+    return false;
+}
+
